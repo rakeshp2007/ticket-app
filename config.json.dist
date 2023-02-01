@@ -1,0 +1,13 @@
+{
+    "MongoDB":{
+        "Host":"localhost",
+        "Username":"username",
+        "Password":"password",
+        "Database":"database-name",
+        "Port":"27017"
+    },
+    "JWT":{
+        "JwtKey":"SecretKeyForJwtToken",
+        "TtlMinute": 3600
+    }
+}
