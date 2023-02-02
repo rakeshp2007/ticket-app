@@ -39,7 +39,8 @@ func Login(c *gin.Context) {
 	err := collections.FindOne(context.TODO(), bson.M{"userName": inputData.Username}).Decode(&dbResponse)
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid username or password"})
+		return
 	}
 
 	passwordIsValid, msg := VerifyPassword(inputData.Password, dbResponse.Password)
@@ -52,6 +53,7 @@ func Login(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{"access_token": token})
 	return
@@ -64,7 +66,7 @@ func VerifyPassword(userPassword string, providedPassword string) (bool, string)
 	msg := ""
 
 	if err != nil {
-		msg = fmt.Sprintf("login or passowrd is incorrect")
+		msg = fmt.Sprintf("Invalid username or password")
 		check = false
 	}
 
