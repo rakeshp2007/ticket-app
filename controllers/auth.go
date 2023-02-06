@@ -21,7 +21,7 @@ func Login(c *gin.Context) {
 	var validate = validator.New()
 	if err := c.ShouldBindJSON(&inputData); err != nil {
 		fmt.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
@@ -39,20 +39,20 @@ func Login(c *gin.Context) {
 	err := collections.FindOne(context.TODO(), bson.M{"userName": inputData.Username}).Decode(&dbResponse)
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid username or password"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 		return
 	}
 
 	passwordIsValid, msg := VerifyPassword(inputData.Password, dbResponse.Password)
 	if passwordIsValid != true {
-		c.JSON(http.StatusBadRequest, gin.H{"error": msg})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": msg})
 		return
 	}
 
 	token, err := sr.GenerateJWT(dbResponse.Username)
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Token creation error occured"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"access_token": token})

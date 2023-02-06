@@ -9,8 +9,8 @@ import (
 
 func UserRoute(router *gin.Engine) {
 	version1 := "/api/v1"
-	router.POST(version1+"/login", controllers.Login)
-	v1 := router.Group(version1).Use(middlewares.Authentication())
+	router.Use(middlewares.CORSMiddleware()).POST(version1+"/login", controllers.Login)
+	v1 := router.Group(version1).Use(middlewares.Authentication(), middlewares.CORSMiddleware())
 	{
 		v1.POST("/ticket", controllers.CreateTicket)
 		v1.POST("/ticket/search", controllers.ListTickets)
@@ -21,5 +21,4 @@ func UserRoute(router *gin.Engine) {
 		v1.PATCH("/ticket/change-priority/:id", controllers.ChangeTicket)
 		v1.GET("/dashboard/count", controllers.TicketCount)
 	}
-
 }
