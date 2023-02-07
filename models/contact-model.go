@@ -6,14 +6,14 @@ import (
 
 type ContactRetrieve struct {
 	Id             primitive.ObjectID `bson:"_id,omitempty" json:"_id" validate:"required"`
-	Name           string             `json:"name" validate:"required"`
-	LastName       string             `json:"lastName" validate:"required"`
-	Email          string             `json:"email" validate:"required"`
-	CreatedDate    primitive.DateTime `json:"createdDate"`
+	Name           string             `json:"name,omitempty" validate:"required"`
+	LastName       string             `json:"lastName,omitempty" validate:"required"`
+	Email          string             `json:"email,omitempty" validate:"required"`
+	CreatedDate    primitive.DateTime `json:"createdDate,omitempty"`
 	CompanyDetails struct {
-		Name     string `json:"name"`
-		Location string `json:"location"`
-		Pin      int32  `json:"pin"`
-	} `json:"companyDetails"`
-	Phone []string `json:"phone"`
+		Name     string `json:"name,omitempty"`
+		Location string `json:"location,omitempty"`
+		Pin      int32  `json:"pin,omitempty"`
+	} `json:"companyDetails,omitempty"`
+	Phone []string `json:"phone,omitempty"`
 }

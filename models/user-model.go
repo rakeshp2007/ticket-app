@@ -9,12 +9,12 @@ type LoginInput struct {
 
 type UserRetrieve struct {
 	Id          primitive.ObjectID `bson:"_id" json:"_id" validate:"required"`
-	UserName    string             `bson:"userName" json:"userName" validate:"required"`
-	Name        string             `bson:"name" json:"name" validate:"required"`
-	LastName    string             `bson:"lastName" json:"lastName" validate:"required"`
-	Password    string             `bson:"password" json:"password" validate:"required"`
-	CreatedDate primitive.DateTime `bson:"createdDate" json:"createdDate"`
-	Status      string             `bson:"status" json:"status" validate:"required"`
-	Roles       []string           `bson:"roles" json:"roles"`
-	TimeZone    string             `bson:"timezone" json:"timezone"`
+	UserName    string             `bson:"userName" json:"userName,omitempty" validate:"required"`
+	Name        string             `bson:"name" json:"name,omitempty" validate:"required"`
+	LastName    string             `bson:"lastName" json:"lastName,omitempty" validate:"required"`
+	Password    string             `bson:"password" json:"password,omitempty" validate:"required"`
+	CreatedDate primitive.DateTime `bson:"createdDate" json:"createdDate,omitempty"`
+	Status      string             `bson:"status" json:"status,omitempty" validate:"required"`
+	Roles       []string           `bson:"roles" json:"roles,omitempty"`
+	TimeZone    string             `bson:"timezone" json:"timezone,omitempty"`
 }

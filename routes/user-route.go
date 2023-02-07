@@ -20,5 +20,7 @@ func UserRoute(router *gin.Engine) {
 		v1.PATCH("/ticket/change-status/:id", controllers.ChangeTicket)
 		v1.PATCH("/ticket/change-priority/:id", controllers.ChangeTicket)
 		v1.GET("/dashboard/count", controllers.TicketCount)
+		v1.GET("/contacts", controllers.GetContacts)
+		v1.GET("/users", controllers.GetUsers)
 	}
 }
