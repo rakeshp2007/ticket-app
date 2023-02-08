@@ -17,13 +17,13 @@ func CreateTicket(c *gin.Context) {
 	}
 	validateStat, validateMessage, ContactDetails := ValidateContact(fmt.Sprint(TicketCreateValidate.Contact))
 	if !validateStat {
-		c.JSON(http.StatusBadRequest, gin.H{"eror": map[string]interface{}{"Contact": validateMessage}})
+		c.JSON(http.StatusBadRequest, gin.H{"error": map[string]interface{}{"Contact": validateMessage}})
 		return
 	}
 
 	validateStat, validateMessage, UserDetails := validateUser(fmt.Sprint(TicketCreateValidate.Assignee))
 	if !validateStat {
-		c.JSON(http.StatusBadRequest, gin.H{"eror": map[string]interface{}{"Contact": validateMessage}})
+		c.JSON(http.StatusBadRequest, gin.H{"error": map[string]interface{}{"Contact": validateMessage}})
 		return
 	}
 	ticketSaveData := GetTicketSaveData(false, TicketCreateValidate, ContactDetails, UserDetails)

@@ -115,7 +115,7 @@ func ListTickets(c *gin.Context) {
 		return
 	}
 	defer results.Close(context.TODO())
-	var tickets []md.TicketJson
+	tickets := make([]md.TicketJson, 0)
 
 	for results.Next(context.TODO()) {
 		var singleTicket md.TicketJson
