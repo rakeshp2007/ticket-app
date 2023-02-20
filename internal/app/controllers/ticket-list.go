@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	cf "ticket-app/commonfunctions"
-	ct "ticket-app/constants"
-	md "ticket-app/models"
-	sr "ticket-app/services"
+	md "ticket-app/internal/app/models"
+	cf "ticket-app/internal/app/utils/commonfunctions"
+	ct "ticket-app/internal/app/utils/constants"
+	database "ticket-app/internal/app/utils/database"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -89,7 +89,7 @@ func ListTickets(c *gin.Context) {
 	}
 	//fmt.Println(filterCondition)
 
-	ticketCollections := sr.GetCollection(sr.MongoDB, "tickets")
+	ticketCollections := database.GetCollection(database.MongoDB, "tickets")
 	ticketCount, err := ticketCollections.CountDocuments(context.TODO(), filterCondition)
 
 	opts := options.Find()

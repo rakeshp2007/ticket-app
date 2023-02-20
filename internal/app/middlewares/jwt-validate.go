@@ -5,8 +5,9 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	md "ticket-app/models"
-	sr "ticket-app/services"
+	md "ticket-app/internal/app/models"
+	database "ticket-app/internal/app/utils/database"
+	jwt "ticket-app/internal/app/utils/jwt"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -33,14 +34,14 @@ func Authentication() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		claims, err := sr.ValidateToken(accessToken)
+		claims, err := jwt.ValidateToken(accessToken)
 		if err != nil {
 			c.JSON(401, gin.H{"error": "Invalid token"})
 			c.Abort()
 			return
 		}
 		var dbResponse md.UserRetrieve
-		collections := sr.GetCollection(sr.MongoDB, "users")
+		collections := database.GetCollection(database.MongoDB, "users")
 		//fmt.Println(collections.Find(c.TODO(), bson.M{}))
 
 		err = collections.FindOne(context.TODO(), bson.M{"userName": claims.Username}).Decode(&dbResponse)

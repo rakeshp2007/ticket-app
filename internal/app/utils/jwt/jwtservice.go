@@ -1,15 +1,15 @@
-package services
+package jwt
 
 import (
 	"errors"
 	"time"
 
-	"ticket-app/configuration"
+	"ticket-app/internal/config"
 
 	"github.com/golang-jwt/jwt/v4"
 )
 
-var jwtKey = []byte(configuration.Config.JWT.JwtKey)
+var jwtKey = []byte(config.Config.JWT.JwtKey)
 
 type JWTClaim struct {
 	Username string `json:"username"`
@@ -17,7 +17,7 @@ type JWTClaim struct {
 }
 
 func GenerateJWT(username string) (tokenString string, err error) {
-	expirationTime := time.Now().Add(time.Duration(configuration.Config.JWT.TtlMinute) * time.Minute)
+	expirationTime := time.Now().Add(time.Duration(config.Config.JWT.TtlMinute) * time.Minute)
 	claims := &JWTClaim{
 		Username: username,
 		StandardClaims: jwt.StandardClaims{

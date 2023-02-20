@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 	"net/http"
-	md "ticket-app/models"
-	sr "ticket-app/services"
+	md "ticket-app/internal/app/models"
+	database "ticket-app/internal/app/utils/database"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,7 +13,7 @@ import (
 )
 
 func GetContacts(c *gin.Context) {
-	contactCollections := sr.GetCollection(sr.MongoDB, "contacts")
+	contactCollections := database.GetCollection(database.MongoDB, "contacts")
 	opts := options.Find().SetProjection(bson.D{{Key: "name", Value: 1}, {Key: "email", Value: 1}})
 	results, err := contactCollections.Find(context.TODO(), bson.M{}, opts)
 	if err != nil {

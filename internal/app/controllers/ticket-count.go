@@ -3,7 +3,7 @@ package controllers
 import (
 	"context"
 	"net/http"
-	sr "ticket-app/services"
+	database "ticket-app/internal/app/utils/database"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +12,7 @@ import (
 
 func TicketCount(c *gin.Context) {
 
-	ticketCollections := sr.GetCollection(sr.MongoDB, "tickets")
+	ticketCollections := database.GetCollection(database.MongoDB, "tickets")
 	groupStage := bson.D{
 		{Key: "$group", Value: bson.D{
 			{Key: "_id", Value: "$status"},

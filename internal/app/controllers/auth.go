@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	cf "ticket-app/commonfunctions"
-	md "ticket-app/models"
-	sr "ticket-app/services"
+	md "ticket-app/internal/app/models"
+	cf "ticket-app/internal/app/utils/commonfunctions"
+	database "ticket-app/internal/app/utils/database"
+	jwt "ticket-app/internal/app/utils/jwt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -33,7 +34,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	collections := sr.GetCollection(sr.MongoDB, "users")
+	collections := database.GetCollection(database.MongoDB, "users")
 	//fmt.Println(collections.Find(context.TODO(), bson.M{}))
 
 	err := collections.FindOne(context.TODO(), bson.M{"userName": inputData.Username}).Decode(&dbResponse)
@@ -49,7 +50,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := sr.GenerateJWT(dbResponse.Username)
+	token, err := jwt.GenerateJWT(dbResponse.Username)
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Token creation error occured"})

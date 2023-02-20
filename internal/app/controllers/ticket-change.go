@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	sr "ticket-app/services"
+	database "ticket-app/internal/app/utils/database"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -33,7 +33,7 @@ func ChangeTicket(c *gin.Context) {
 	}
 	//filter := bson.D{{"species", "Ledebouria socialis"}, {"plant_id", 3}}
 	fmt.Println(bsonSaveData)
-	ticketCollections := sr.GetCollection(sr.MongoDB, "tickets")
+	ticketCollections := database.GetCollection(database.MongoDB, "tickets")
 	filter := bson.D{{Key: "_id", Value: docId}}
 	update := bson.D{{Key: "$set", Value: bsonSaveData}}
 	opts := options.Update().SetUpsert(true)

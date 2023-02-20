@@ -1,4 +1,4 @@
-package configuration
+package config
 
 import (
 	"encoding/json"
@@ -28,7 +28,7 @@ var Config = Configuration{}
 func SetConfigParams() {
 	_, b, _, _ := runtime.Caller(0)
 	currentPath := filepath.Dir(b)
-	c := flag.String("c", currentPath+"/../config.json", "Specify configuration file.")
+	c := flag.String("c", currentPath+"/../../configs/config.json", "Specify configuration file.")
 	flag.Parse()
 	file, err := os.Open(*c)
 	if err != nil {

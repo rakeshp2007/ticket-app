@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	sr "ticket-app/services"
+	database "ticket-app/internal/app/utils/database"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +27,7 @@ func CreateTicket(c *gin.Context) {
 		return
 	}
 	ticketSaveData := GetTicketSaveData(false, TicketCreateValidate, ContactDetails, UserDetails)
-	ticketCollections := sr.GetCollection(sr.MongoDB, "tickets")
+	ticketCollections := database.GetCollection(database.MongoDB, "tickets")
 	result, err := ticketCollections.InsertOne(context.TODO(), ticketSaveData)
 	if err != nil {
 		log.Println(err)

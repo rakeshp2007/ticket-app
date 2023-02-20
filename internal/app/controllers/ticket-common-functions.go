@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	cf "ticket-app/commonfunctions"
-	md "ticket-app/models"
-	sr "ticket-app/services"
+	md "ticket-app/internal/app/models"
+	cf "ticket-app/internal/app/utils/commonfunctions"
+	database "ticket-app/internal/app/utils/database"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -38,7 +38,7 @@ func ValidateId(c *gin.Context) (status bool, message string, docID primitive.Ob
 		//c.JSON(http.StatusBadRequest, gin.H{"eror": map[string]interface{}{"id": err.Error()}})
 		//return
 	}
-	ticketCollections := sr.GetCollection(sr.MongoDB, "tickets")
+	ticketCollections := database.GetCollection(database.MongoDB, "tickets")
 	err = ticketCollections.FindOne(context.TODO(), bson.M{"_id": docID}).Decode(&singleTicket)
 	if err != nil {
 		log.Println(err)
@@ -116,7 +116,7 @@ func ValidateContact(contact string) (status bool, message string, ContactDetail
 		message = err.Error()
 		return
 	}
-	contactCollections := sr.GetCollection(sr.MongoDB, "contacts")
+	contactCollections := database.GetCollection(database.MongoDB, "contacts")
 	err = contactCollections.FindOne(context.TODO(), bson.M{"_id": contactID}).Decode(&ContactDetails)
 	if err != nil {
 		log.Println(err)
@@ -141,7 +141,7 @@ func validateUser(assignee string) (status bool, message string, UserDetails md.
 		//c.JSON(http.StatusBadRequest, gin.H{"eror": map[string]interface{}{"Assignee": err.Error()}})
 	}
 
-	userCollections := sr.GetCollection(sr.MongoDB, "users")
+	userCollections := database.GetCollection(database.MongoDB, "users")
 	err = userCollections.FindOne(context.TODO(), bson.M{"_id": userId}).Decode(&UserDetails)
 	if err != nil {
 		log.Println(err)

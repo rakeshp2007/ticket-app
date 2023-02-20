@@ -3,7 +3,8 @@ package controllers
 import (
 	"context"
 	"net/http"
-	sr "ticket-app/services"
+
+	database "ticket-app/internal/app/utils/database"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,7 +17,7 @@ func DeleteTicket(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"eror": map[string]interface{}{"Contact": validateMessage}})
 		return
 	}
-	ticketCollections := sr.GetCollection(sr.MongoDB, "tickets")
+	ticketCollections := database.GetCollection(database.MongoDB, "tickets")
 
 	result, err := ticketCollections.DeleteOne(context.TODO(), bson.D{{Key: "_id", Value: docId}})
 	if err != nil {

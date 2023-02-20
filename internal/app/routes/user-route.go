@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"ticket-app/controllers"
-	"ticket-app/middlewares"
+	"ticket-app/internal/app/controllers"
+	"ticket-app/internal/app/middlewares"
 
 	"github.com/gin-gonic/gin"
 )

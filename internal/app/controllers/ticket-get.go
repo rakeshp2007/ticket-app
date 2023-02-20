@@ -3,8 +3,8 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	cf "ticket-app/commonfunctions"
-	ct "ticket-app/constants"
+	cf "ticket-app/internal/app/utils/commonfunctions"
+	ct "ticket-app/internal/app/utils/constants"
 
 	"github.com/gin-gonic/gin"
 )
